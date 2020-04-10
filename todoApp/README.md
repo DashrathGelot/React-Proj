@@ -1,10 +1,10 @@
-##CreatedBy:@DASHRATH_GELOT
-##@dashrath@dashrath-vostro-3568
+## CreatedBy:@DASHRATH_GELOT
+## @dashrath@dashrath-vostro-3568
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## first install all dependency 
-`npm install`
+### `npm install`
  after npm install you can perform following command...
 
 ## Available Scripts
