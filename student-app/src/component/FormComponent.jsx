@@ -86,7 +86,7 @@ class FormComponent extends React.Component{
     const title=this.props.update ? 'Update Detail' : 'Add New Student';
     const seen=this.props.update ? 'readonly':'';
       return (
-          <Modal {...this.props}  aria-labelledby="contained-modal-title-vcenter">
+          <Modal show={this.props.show} onHide={()=>this.props.dispatch(SetModel())} aria-labelledby="contained-modal-title-vcenter">
             <Modal.Header closeButton>
               <Modal.Title id="contained-modal-title-vcenter">
                 {title}

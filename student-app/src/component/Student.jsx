@@ -105,8 +105,7 @@ class Student extends React.Component {
         <FormComponent 
           show={this.props.modelShow} 
           onHide={this.setModalShow} 
-        />
-          :null}
+        />:null}
         {this.props.tableShow ?
         <SecondTableComponent students={this.props.students}/>:null}
       </div>  
