@@ -2,6 +2,7 @@ import React from 'react';
 import { Button,Col,Modal,Form,Alert } from 'react-bootstrap'; 
 import { connect } from 'react-redux';
 
+import {changName,changeMarks,changRollNo} from '../actions/FormAction'
 import {AddStudent,UpdateStudent,SetStudent,SetModel,SetUpdate} from '../actions/StudentAction'
 
 function FormGroup(props){
@@ -18,53 +19,28 @@ class FormComponent extends React.Component{
   constructor(props){
     super(props)
     this.state={
-      empty:false,
-      name:props.student.name,
-      rollNo:props.student.rollNo,
-      cpp:props.student.cpp,
-      java:props.student.java,
-      dbms:props.student.dbms,
-
+      empty:false
     }
     this.handleSubmit=this.handleSubmit.bind(this)
     this.checkEmpty=this.checkEmpty.bind(this)
     this.checkValid=this.checkValid.bind(this)
-    this.changName=this.changName.bind(this)
-    this.changRollNo=this.changRollNo.bind(this)
-    this.changeMarks=this.changeMarks.bind(this)
-  }
-  changName(e){
-    this.setState({
-      name:e.target.value,
-      nvalid:!(/^[a-zA-Z ]*$/).test(e.target.value)
-    })
-  }
-  changRollNo(e){
-    this.setState({
-      rollNo:e.target.value,
-      rvalid:this.props.students.some(element =>parseInt(e.target.value)===element.rollNo),
-    })
-  }
-  changeMarks(e){
-    const val=e.target
-    this.setState({
-      [val.name]:val.value,
-      [val.id]:parseInt(val.value) < 0 || parseInt(val.value) >100
-    })
   }
   checkEmpty(){
-    const obj=this.state
-    console.log(obj.name)
-    if(obj.rollNo && obj.name && obj.cpp && obj.java && obj.dbms){
-      return false
-    }
-    else{
+    const obj=this.props
+    if(obj.rollNo===undefined || obj.rollNo===''
+    ||obj.name===undefined || obj.name===''
+    ||obj.cpp===undefined || obj.cpp===''
+    ||obj.java===undefined || obj.java===''
+    ||obj.dbms===undefined || obj.dbms===''){
       this.setState({empty:true})
       return true
     }
+    else{
+      return false
+    }
   }
   checkValid(){
-    const obj=this.state
+    const obj=this.props
     if(obj.rvalid || obj.nvalid || obj.cppvalid || obj.javavalid || obj.dbmsvalid) return true
     else return false
   }
@@ -99,20 +75,20 @@ class FormComponent extends React.Component{
               <Form.Row>
                 <Form.Group as={Col} controlId="validationCustomUsername">
                   <Form.Label>Roll Number</Form.Label>
-                  <Form.Control name="rollNo" type="number" placeholder="Enter Roll Number"
-                  value={this.state.rollNo} 
-                  onChange={this.changRollNo}
+                  <Form.Control name="rollno" type="number" placeholder="Enter Roll Number"
+                  value={this.props.rollNo} 
+                  onChange={(e)=>this.props.dispatch(changRollNo(e.target.value,this.props.students))}
                   readOnly={seen}/>
-                  {this.state.rvalid?
+                  {this.props.rvalid?
                   <Alert variant="danger">Roll Number is Exists.</Alert>:null}
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridPassword">
                   <Form.Label>Name</Form.Label>
                   <Form.Control name="name" type="text" placeholder="Name"
-                  value={this.state.name} 
-                  onChange={this.changName}
+                  value={this.props.name} 
+                  onChange={(e)=>this.props.dispatch(changName(e.target.value))}
                  />
-                 {this.state.nvalid?
+                 {this.props.nvalid?
                   <Alert variant="danger">Enter valid name.</Alert>:null}
                 </Form.Group>
               </Form.Row>
@@ -122,25 +98,25 @@ class FormComponent extends React.Component{
                 label="CPP"
                 name="cpp"
                 id="cppvalid"
-                custom={this.state.cppvalid}
-                value={this.state.cpp}
-                onChange={this.changeMarks}
+                custom={this.props.cppvalid}
+                value={this.props.cpp}
+                onChange={(e)=>this.props.dispatch(changeMarks(e))}
                 />
                 <FormGroup
                 label="Java"
                 name="java"
                 id="javavalid"
-                custom={this.state.javavalid}
-                value={this.state.java}
-                onChange={this.changeMarks}
+                custom={this.props.javavalid}
+                value={this.props.java}
+                onChange={(e)=>this.props.dispatch(changeMarks(e))}
                 />
                 <FormGroup
                 label="DBMS"
                 name="dbms"
                 id="dbmsvalid"
-                custom={this.state.dbmsvalid}
-                value={this.state.dbms}
-                onChange={this.changeMarks}
+                custom={this.props.dbmsvalid}
+                value={this.props.dbms}
+                onChange={(e)=>this.props.dispatch(changeMarks(e))}
                 />
               </Form.Row>
               <Modal.Footer>
@@ -158,6 +134,15 @@ export default connect((state)=>{
   return{
     students:state.studentStore.students,
     update:state.studentStore.update,
-    student:state.studentStore.getStudent,
+    name:state.studentForm.name,
+    rollNo:state.studentForm.rollNo,
+    cpp:state.studentForm.cpp,
+    java:state.studentForm.java,
+    dbms:state.studentForm.dbms,
+    rvalid:state.studentForm.validRollNo,
+    nvalid:state.studentForm.validName,
+    cppvalid:state.studentForm.cppvalid,
+    javavalid:state.studentForm.javavalid,
+    dbmsvalid:state.studentForm.dbmsvalid,
   }
 })(FormComponent)

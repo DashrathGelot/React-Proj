@@ -11,7 +11,7 @@ const defaultState={
 const setStudent=(e)=>{
     return{
         name:e.target.name.value,
-        rollNo:parseInt(e.target.rollNo.value),
+        rollNo:parseInt(e.target.rollno.value),
         cpp:e.target.cpp.value,
         java:e.target.java.value,
         dbms:e.target.dbms.value,
@@ -38,7 +38,7 @@ export default function (state=defaultState,action){
             
         case ActionType.UPDATE_STUDENT:
             state.students.forEach((student,index)=>{
-                if(student.rollNo === parseInt(action.student.target.rollNo.value)){
+                if(student.rollNo === parseInt(action.student.target.rollno.value)){
                     newSt[index]=setStudent(action.student)
                 }
             })

@@ -1,88 +1,102 @@
 import React from 'react';
 import { Button,Col,Modal,Form,Alert } from 'react-bootstrap'; 
-import { connect } from 'react-redux';
-
-import {AddStudent,UpdateStudent,SetStudent,SetModel,SetUpdate} from '../actions/StudentAction'
 
 function FormGroup(props){
-  return <Form.Group as={Col}>
+  return <Form.Group as={Col} controlId="formGridCity">
   <Form.Label>{props.label}</Form.Label>
-  <Form.Control name={props.name} id={props.id} type="number" className='valid-marks' custom={props.custom}
-  value={props.value} onChange={props.onChange}/>
-  {props.custom ?
+  <Form.Control name={props.name} type="number" className='valid-marks' custom={props.custom}
+  value={props.value} onChange={props.onChange}
+  />
+  {props.valid ?
   <div variant="danger" className='valid-marks-div'>Enter valid Marks</div>:null}
 </Form.Group>
 }
 
-class FormComponent extends React.Component{
+
+
+
+export default class FormComponent extends React.Component{
   constructor(props){
     super(props)
     this.state={
-      empty:false,
+      validated:false,
       name:props.student.name,
       rollNo:props.student.rollNo,
       cpp:props.student.cpp,
       java:props.student.java,
       dbms:props.student.dbms,
-
+      empty:false
     }
+    this.rollNoValid=this.rollNoValid.bind(this)
     this.handleSubmit=this.handleSubmit.bind(this)
+    this.nameValid=this.nameValid.bind(this)
     this.checkEmpty=this.checkEmpty.bind(this)
+    this.marksValid=this.marksValid.bind(this)
     this.checkValid=this.checkValid.bind(this)
-    this.changName=this.changName.bind(this)
-    this.changRollNo=this.changRollNo.bind(this)
-    this.changeMarks=this.changeMarks.bind(this)
   }
-  changName(e){
-    this.setState({
-      name:e.target.value,
-      nvalid:!(/^[a-zA-Z ]*$/).test(e.target.value)
-    })
+  rollNoValid(e){
+    let bool=false;
+    this.props.allstudents.forEach(element => {
+      if(parseInt(e.target.value)===element.rollNo){
+       bool=true
+      }
+    });
+    this.setState({rollNo: e.target.value,rvalid:bool})
   }
-  changRollNo(e){
-    this.setState({
-      rollNo:e.target.value,
-      rvalid:this.props.students.some(element =>parseInt(e.target.value)===element.rollNo),
-    })
+  nameValid(e){
+    const regex=/^[a-zA-Z ]*$/
+    let bool=!regex.test(e.target.value)
+    this.setState({name: e.target.value,nvalid:bool})
   }
-  changeMarks(e){
-    const val=e.target
-    this.setState({
-      [val.name]:val.value,
-      [val.id]:parseInt(val.value) < 0 || parseInt(val.value) >100
-    })
+  marksValid(e){
+    let bool=false
+    const obj=e.target
+    console.log()
+    if(obj.value < 0 || obj.value >100 ){
+      bool=true
+    }
+    if(obj.name==='cpp'){
+    this.setState({cpp:obj.value,cppvalid:bool})
+    }
+    else if(obj.name==='java'){
+      this.setState({java:obj.value,javavalid:bool})
+    }
+    else{
+      this.setState({dbms:obj.value,dbmsvalid:bool})
+    }
   }
   checkEmpty(){
     const obj=this.state
-    console.log(obj.name)
-    if(obj.rollNo && obj.name && obj.cpp && obj.java && obj.dbms){
-      return false
-    }
-    else{
+    if(obj.rollNo===undefined || obj.rollNo===''
+    || obj.name===undefined || obj.name===''
+    ||obj.cpp===undefined || obj.cpp===''
+    ||obj.java===undefined || obj.java===''
+    ||obj.dbms===undefined || obj.dbms===''){
       this.setState({empty:true})
       return true
+    }
+    else{
+      return false
     }
   }
   checkValid(){
     const obj=this.state
-    if(obj.rvalid || obj.nvalid || obj.cppvalid || obj.javavalid || obj.dbmsvalid) return true
-    else return false
+    if(obj.rvalid || obj.nvalid || obj.cppvalid || obj.javavalid || obj.dbmsvalid){
+      return true
+    }
+    else{
+      return false
+    }
   }
   handleSubmit(event){
-   event.preventDefault()
-   if(this.checkEmpty() || this.checkValid()){ event.preventDefault()}
-   else{
-      if(this.props.update){
-        this.props.dispatch(UpdateStudent(event))
-        this.props.dispatch(SetUpdate())
-      }else{
-          this.props.dispatch(AddStudent(event))
-      }
-      this.props.dispatch(SetStudent())
-      this.props.dispatch(SetModel())
+    event.preventDefault()
+    if(this.checkEmpty() || this.checkValid()){ event.preventDefault()}
+    else{
+        this.props.handleSubmit(event)
       }
   }
-  render(){
+  
+  render(){ 
     const title=this.props.update ? 'Update Detail' : 'Add New Student';
     const seen=this.props.update ? 'readonly':'';
       return (
@@ -99,9 +113,8 @@ class FormComponent extends React.Component{
               <Form.Row>
                 <Form.Group as={Col} controlId="validationCustomUsername">
                   <Form.Label>Roll Number</Form.Label>
-                  <Form.Control name="rollNo" type="number" placeholder="Enter Roll Number"
-                  value={this.state.rollNo} 
-                  onChange={this.changRollNo}
+                  <Form.Control name="rollno" type="number" placeholder="Enter Roll Number"
+                  value={this.state.rollNo} onChange={this.rollNoValid}
                   readOnly={seen}/>
                   {this.state.rvalid?
                   <Alert variant="danger">Roll Number is Exists.</Alert>:null}
@@ -109,8 +122,7 @@ class FormComponent extends React.Component{
                 <Form.Group as={Col} controlId="formGridPassword">
                   <Form.Label>Name</Form.Label>
                   <Form.Control name="name" type="text" placeholder="Name"
-                  value={this.state.name} 
-                  onChange={this.changName}
+                  value={this.state.name} onChange={this.nameValid} 
                  />
                  {this.state.nvalid?
                   <Alert variant="danger">Enter valid name.</Alert>:null}
@@ -121,26 +133,23 @@ class FormComponent extends React.Component{
                 <FormGroup
                 label="CPP"
                 name="cpp"
-                id="cppvalid"
                 custom={this.state.cppvalid}
                 value={this.state.cpp}
-                onChange={this.changeMarks}
+                onChange={this.marksValid}
                 />
                 <FormGroup
                 label="Java"
                 name="java"
-                id="javavalid"
                 custom={this.state.javavalid}
                 value={this.state.java}
-                onChange={this.changeMarks}
+                onChange={this.marksValid}
                 />
                 <FormGroup
                 label="DBMS"
                 name="dbms"
-                id="dbmsvalid"
                 custom={this.state.dbmsvalid}
                 value={this.state.dbms}
-                onChange={this.changeMarks}
+                onChange={this.marksValid}
                 />
               </Form.Row>
               <Modal.Footer>
@@ -153,11 +162,3 @@ class FormComponent extends React.Component{
         );
   }
 }
-
-export default connect((state)=>{
-  return{
-    students:state.studentStore.students,
-    update:state.studentStore.update,
-    student:state.studentStore.getStudent,
-  }
-})(FormComponent)

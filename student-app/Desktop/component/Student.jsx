@@ -6,6 +6,7 @@ import {RemoveStudent,GetStudent, SetStudent,SetModel,SetUpdate} from '../action
 
 import FormComponent from './FormComponent';
 import HeaderComponent from './HeaderComponent';
+import { setStudentObj } from '../actions/FormAction';
 
 function TableComponent(props){
   const studentContent=props.students.map(
@@ -96,6 +97,7 @@ class Student extends React.Component {
     this.props.dispatch(SetUpdate())
   }
   render(){ 
+    this.props.dispatch(setStudentObj(this.props.getStudent))
     return (
       <div>
         <HeaderComponent setModalShow={this.setModalShow}/>
@@ -117,6 +119,7 @@ class Student extends React.Component {
 export default connect((state,props)=>{
     return{
         students:state.studentStore.students,
+        getStudent:state.studentStore.getStudent,
         modelShow:state.studentStore.modelShow,
         tableShow:state.studentStore.students.length!==0,
         update:state.studentStore.update,
