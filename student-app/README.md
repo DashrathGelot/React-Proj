@@ -1,5 +1,17 @@
+<<<<<<< HEAD:student-app/README.md
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+=======
+## CreatedBy:@DASHRATH_GELOT
+## @dashrath@dashrath-vostro-3568
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## first install all dependency 
+### `npm install`
+ after npm install you can perform following command...
+
+>>>>>>> b973e0d8e3065eb7a6c5e41db2adf05698cc6737:todoApp/README.md
 ## Available Scripts
 
 In the project directory, you can run:
