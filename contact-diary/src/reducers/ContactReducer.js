@@ -3,7 +3,7 @@ import ActionConstant from "../actions/ActionConstant";
 const defaultState={
     contacts:[],
     loading:false,
-    error:false,
+    error:false
 }
 export default function (state=defaultState,action){
   

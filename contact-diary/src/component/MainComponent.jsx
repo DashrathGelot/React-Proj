@@ -126,8 +126,7 @@ class MainComponent extends React.Component{
       <div className="list">
         {list}
       </div>
-    </div>  
-      )
+    </div> )
   }
 }
 

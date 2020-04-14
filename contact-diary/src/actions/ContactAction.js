@@ -14,7 +14,6 @@ export const CreateContact=(e)=>{
         }
     }
 }
-
 export const RemoveContact=(index)=>{
     return{
         type:ActionConstant.REMOVE_CONTACT,
