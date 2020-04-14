@@ -7,16 +7,17 @@ import contacts from '../services/ContactService'
 
 function RowList(props){
   return(<Row className="row-list" key={props.i}>
-  <Col>
-    {props.contact.name}
-  </Col>
-  <Col>
-    <Button variant="outline-info" value={props.i} onClick={props.handleShowmore}>Show More</Button>
-  </Col>
-  <Col>
-    <Button variant="outline-danger" value={props.i} onClick={props.handleRemove}>Remove Contact</Button>
-  </Col>
-</Row>)
+          <Col>
+            {props.contact.name}
+          </Col>
+          <Col>
+            <Button variant="outline-info" value={props.i} onClick={props.handleShowmore}>Show More</Button>
+          </Col>
+          <Col>
+            <Button variant="outline-danger" value={props.i} onClick={props.handleRemove}>Remove Contact</Button>
+          </Col>
+        </Row>
+      )
 } 
 
 function MoreInfo(props){
