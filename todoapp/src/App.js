@@ -71,7 +71,6 @@ class App extends React.Component {
   }
 
   render(){
-    
     const allTaskShowData=this.state.allTask.map(task=> {
       if(this.state.edit===task){
         return(
@@ -98,8 +97,6 @@ class App extends React.Component {
         );
       }
     });
-
-
     return (
       <div className="App">
 
@@ -109,9 +106,7 @@ class App extends React.Component {
           <input type="text" name="task" value={this.state.value}/>
           <input type="submit" style={{marginLeft:10}} value="ADD"/>
         </form>
-
         {this.state.showTaskdata ?
-
         <div className="data">
           <table>
               <tr>
@@ -130,5 +125,4 @@ class App extends React.Component {
     );
   }
 }
-
 export default App;
