@@ -1,0 +1,44 @@
+
+.top{
+    margin:5% 0 0 10%;    
+}
+.list{
+    margin: 5% 0 0 20%;
+}
+.row-list{
+    width: 75%;
+    align-items: center;
+    border: 2px solid rgb(66, 245, 203);
+    border-radius: 10px;
+    margin-bottom: 1%;
+}
+.error-msg{
+    width: 75%;
+    color: brown;
+    align-items: center;
+    border: 2px solid red;
+    padding: 2%;
+    border-radius: 10px;
+}
+.row-list-more{
+    width:75%;
+    color:indianred;
+    border: 2px solid brown;
+    border-radius: 10px;
+    margin-bottom: 1%;
+}
+.heading{
+    margin-top: 2%;
+    align-items: center;
+    color: chartreuse;
+    font-size: 2em;
+    font-weight: bold;
+}
+.top-notch{
+    width:5%;
+    height:2%;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 25px solid brown;
+    margin-top: -1%;
+}
