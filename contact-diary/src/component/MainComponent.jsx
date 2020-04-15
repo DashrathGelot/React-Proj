@@ -6,7 +6,7 @@ import {CreateContact,RemoveContact} from "../actions/ContactAction";
 import contacts from '../services/ContactService'
 
 function RowList(props){
-  return(<Row className="row-list" key={props.i}>
+  return(<Row className="row-list" key={props.i} >
   <Col>
     {props.contact.name}
   </Col>
@@ -103,7 +103,8 @@ class MainComponent extends React.Component{
     })
   }
     return (
-    <div className="container">
+    <div className="container" 
+    onClick={(e)=>{return e.target.className!=='btn btn-outline-info'?this.setState({showmore:false}):null}}>
       <div className="heading">
         CONTACT DIARY
       </div>
