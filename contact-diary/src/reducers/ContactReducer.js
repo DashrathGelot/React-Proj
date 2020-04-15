@@ -35,12 +35,14 @@ export default function (state=defaultState,action){
         contacts:action.data,
         loading:false
       }
+
     case ActionConstant.FETCH_DATA_FAILED:
       return{
         ...state,
         error:true,
         loading:false        
       }
+
     default:
         return state
   }

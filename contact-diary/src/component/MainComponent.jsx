@@ -7,17 +7,16 @@ import contacts from '../services/ContactService'
 
 function RowList(props){
   return(<Row className="row-list" key={props.i}>
-          <Col>
-            {props.contact.name}
-          </Col>
-          <Col>
-            <Button variant="outline-info" value={props.i} onClick={props.handleShowmore}>Show More</Button>
-          </Col>
-          <Col>
-            <Button variant="outline-danger" value={props.i} onClick={props.handleRemove}>Remove Contact</Button>
-          </Col>
-        </Row>
-      )
+  <Col>
+    {props.contact.name}
+  </Col>
+  <Col>
+    <Button variant="outline-info" value={props.i} onClick={props.handleShowmore}>Show More</Button>
+  </Col>
+  <Col>
+    <Button variant="outline-danger" value={props.i} onClick={props.handleRemove}>Remove Contact</Button>
+  </Col>
+</Row>)
 } 
 
 function MoreInfo(props){
@@ -43,7 +42,8 @@ class MainComponent extends React.Component{
       showmore:false,
       phone:'',
       email:'',
-      company:''
+      company:'',
+      i:0,
     }
     this.handleSubmit=this.handleSubmit.bind(this)
     this.handleRemove=this.handleRemove.bind(this)
@@ -68,7 +68,11 @@ class MainComponent extends React.Component{
     contacts(this.props.dispatch)
   }
   handleShowmore(e){
-    this.setState({showmore:!this.state.showmore,i:e.target.value})
+    if(parseInt(this.state.i) === parseInt(e.target.value)){
+      this.setState({showmore:!this.state.showmore,i:e.target.value})
+    }
+    else {
+      this.setState({showmore:true,i:e.target.value})}
   }
   render(){
     let list;
@@ -81,7 +85,7 @@ class MainComponent extends React.Component{
     else{
     list=this.props.contacts.map((contact,i)=>{
       return(
-      <div key={i}>
+      <div className="list-class" key={i}>
         <RowList 
         handleRemove={this.handleRemove}
         handleShowmore={this.handleShowmore}
@@ -99,7 +103,7 @@ class MainComponent extends React.Component{
     })
   }
     return (
-    <div>
+    <div className="container">
       <div className="heading">
         CONTACT DIARY
       </div>

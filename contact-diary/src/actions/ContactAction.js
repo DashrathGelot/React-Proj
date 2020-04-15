@@ -20,17 +20,20 @@ export const RemoveContact=(index)=>{
         index:index
     }
 }
+
 export const AjaxCallBegin=()=>{
     return{
         type:ActionConstant.FETCH_DATA_BEGIN
     }
 }
+
 export const AjaxCallSuccess=(data)=>{
     return{
         type:ActionConstant.FETCH_DATA_SUCCESS,
         data:data
     }
 }
+
 export const AjaxCallFailed=(msg)=>{
     return{
         type:ActionConstant.FETCH_DATA_FAILED,
