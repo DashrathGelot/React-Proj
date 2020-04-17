@@ -19,15 +19,15 @@ public class StudentService {
     public Student getStudent(int id){
         return studentRepository.findById(id).orElse(new Student(0,"",0,0,0));
    }
-    public void addStudent(Student student){
-        studentRepository.save(student);
+    public Student addStudent(Student student){
+       return studentRepository.save(student);
     }
 
    public void deleteStudent(int id){
         studentRepository.deleteById(id);
    }
 
-   public void updateStudent(Student student){
-        studentRepository.save(student);
+   public Student updateStudent(Student student){
+        return studentRepository.save(student);
    }
 }

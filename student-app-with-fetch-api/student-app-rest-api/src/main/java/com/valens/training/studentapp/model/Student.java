@@ -13,7 +13,6 @@ public class Student {
     @Column(name = "id")
     private  int rollno;
     private String name;
-    //private String branch;
     private int cpp;
     private int java;
     private int dbms;
@@ -21,7 +20,6 @@ public class Student {
     public Student(int rollno, String name, int cpp,int java,int dbms){
         this.rollno=rollno;
         this.name=name;
-        //this.branch=branch;
     }
     public Student(){}
     public void setName(String name) {
@@ -62,5 +60,15 @@ public class Student {
 
     public int getDbms() {
         return dbms;
+    }
+    @Override
+    public String toString() {
+        return "Student{" +
+                "rollno=" + rollno +
+                ", name='" + name + '\'' +
+                ", cpp=" + cpp +
+                ", java=" + java +
+                ", dbms=" + dbms +
+                '}';
     }
 }

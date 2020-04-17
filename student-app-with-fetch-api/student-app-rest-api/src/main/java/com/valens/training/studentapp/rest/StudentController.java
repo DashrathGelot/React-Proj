@@ -5,7 +5,9 @@ import com.valens.training.studentapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class StudentController {
@@ -21,15 +23,17 @@ public class StudentController {
         return studentService.getStudent(id);
     }
     @RequestMapping(method=RequestMethod.POST,value="/student")
-    public void addStudent(@RequestBody Student student){
-        studentService.addStudent(student);
+    public Student addStudent(@RequestBody Student student){
+        return studentService.addStudent(student);
     }
     @RequestMapping(method = RequestMethod.DELETE,value ="/student/{id}")
-    public void deleteStudent(@PathVariable int id){
+    public Map<String,String> deleteStudent(@PathVariable int id){
         studentService.deleteStudent(id);
+        System.out.println("hello"+id);
+        return new HashMap<String, String>(){{put("status","success");}};
     }
     @RequestMapping(method = RequestMethod.PUT,value = "/student")
-    public void updateStudent(@RequestBody Student student){
-        studentService.updateStudent(student);
+    public Student updateStudent(@RequestBody Student student){
+      return studentService.updateStudent(student);
     }
 }
