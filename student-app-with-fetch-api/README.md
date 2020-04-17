@@ -5,15 +5,15 @@
 For Spring-Boot rest api first you should replace dbname in src/main/resource/application.property file
 
 mysql> describe studentapp;
-+-------+--------------+------+-----+---------+----------------+
-| Field | Type         | Null | Key | Default | Extra          |
-+-------+--------------+------+-----+---------+----------------+
-| id    | int unsigned | NO   | PRI | NULL    | auto_increment |
-| name  | varchar(25)  | YES  |     | NULL    |                |
-| cpp   | int          | YES  |     | NULL    |                |
-| java  | int          | YES  |     | NULL    |                |
-| dbms  | int          | YES  |     | NULL    |                |
-+-------+--------------+------+-----+---------+----------------+
+
+ Field  Type          Null  Key  Default  Extra          
+
+ id     int unsigned  NO    PRI  NULL     auto_increment 
+ name   varchar(25)   YES        NULL                    
+ cpp    int           YES        NULL                    
+ java   int           YES        NULL                    
+ dbms   int           YES        NULL                    
+
 5 rows in set (0.09 sec)
 
 make sure in your database there is studentapp table available. 
