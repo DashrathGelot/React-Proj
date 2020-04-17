@@ -2,20 +2,19 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Table,Button} from 'react-bootstrap'; 
 
-import {RemoveStudent,GetStudent, SetStudent,SetModel,SetUpdate} from '../actions/StudentAction'
-
+import {SetStudent,SetModel,SetUpdate, GetStudent} from '../actions/StudentAction'
 import FormComponent from './FormComponent';
 import HeaderComponent from './HeaderComponent';
-import { fetchStudentData } from '../actions/fetchStudentData';
+import { fetchStudentData,deleteStudent } from '../actions/fetchStudentData';
 
 function TableComponent(props){
   const studentContent=props.students.map(
     student => {
         return(
-            <tr>
-                <td>{student.rollNo}</td>
-                <td><Button type="submit" value={student.rollNo} onClick={props.onUpdate}>Update</Button></td>
-                <td><Button variant="danger" value={student.rollNo} onClick={props.onDelete}>Delete</Button></td>
+            <tr key={student.rollno}>
+                <td>{student.rollno}</td>
+                <td><Button type="submit" value={student.rollno} onClick={props.onUpdate}>Update</Button></td>
+                <td><Button variant="danger" value={student.rollno} onClick={props.onDelete}>Delete</Button></td>
             </tr>
         );
       });
@@ -42,15 +41,16 @@ function SecondTableComponent(props){
   const studentContent=props.students.map(
     student => {
         let cname;
-        student.result==='Pass' ? cname='rowcolorg': cname='rowcolorr';
+        const result=parseInt(student.cpp)>=40 && parseInt(student.java)>=40 && parseInt(student.dbms)>=40 ? 'Pass' :'Fail'
+        result==='Pass' ? cname='rowcolorg': cname='rowcolorr';
         return(
-            <tr className={cname}>
-                <td>{student.rollNo}</td>
+            <tr className={cname} key={student.rollno}>
+                <td>{student.rollno}</td>
                 <td>{student.name}</td>
                 <td>{student.cpp}</td>
                 <td>{student.java}</td>
                 <td>{student.dbms}</td>
-                <td>{student.result}</td>
+                <td>{result}</td>
             </tr>
         );
     })
@@ -83,6 +83,7 @@ class Student extends React.Component {
   }
   componentDidMount(){
     this.props.dispatch(fetchStudentData())
+    
   }
   setModalShow(){
     this.props.dispatch(SetModel())
@@ -92,7 +93,7 @@ class Student extends React.Component {
     }
   }
   handleDelete(e){
-    this.props.dispatch(RemoveStudent(e.target.value))
+    this.props.dispatch(deleteStudent(e.target.value))
   }
   handleUpdate(e){
     this.props.dispatch(GetStudent(e.target.value))
@@ -112,16 +113,17 @@ class Student extends React.Component {
         />:null}
         {this.props.tableShow ?
         <SecondTableComponent students={this.props.students}/>:null}
-      </div>  
+      </div>
     );
   }
 }
 
 export default connect((state,props)=>{
-  console.log(state.studentStore.stud)
     return{
         students:state.studentStore.students,
         modelShow:state.studentStore.modelShow,
         tableShow:state.studentStore.students.length!==0,
         update:state.studentStore.update,
+        message:state.studentStore.message,
+        error:state.studentStore.error
     }})(Student);

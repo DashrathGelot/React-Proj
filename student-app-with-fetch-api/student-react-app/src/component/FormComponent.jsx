@@ -2,7 +2,8 @@ import React from 'react';
 import { Button,Col,Modal,Form,Alert } from 'react-bootstrap'; 
 import { connect } from 'react-redux';
 
-import {AddStudent,UpdateStudent,SetStudent,SetModel,SetUpdate} from '../actions/StudentAction'
+import {SetStudent,SetModel,SetUpdate} from '../actions/StudentAction'
+import {addStudent, updateStudent} from "../actions/fetchStudentData"
 
 function FormGroup(props){
   return <Form.Group as={Col}>
@@ -20,11 +21,10 @@ class FormComponent extends React.Component{
     this.state={
       empty:false,
       name:props.student.name,
-      rollNo:props.student.rollNo,
+      rollNo:props.student.rollno,
       cpp:props.student.cpp,
       java:props.student.java,
       dbms:props.student.dbms,
-
     }
     this.handleSubmit=this.handleSubmit.bind(this)
     this.checkEmpty=this.checkEmpty.bind(this)
@@ -42,7 +42,7 @@ class FormComponent extends React.Component{
   changRollNo(e){
     this.setState({
       rollNo:e.target.value,
-      rvalid:this.props.students.some(element =>parseInt(e.target.value)===element.rollNo),
+      rvalid:this.props.students.some(element =>parseInt(e.target.value)===element.rollno),
     })
   }
   changeMarks(e){
@@ -54,7 +54,6 @@ class FormComponent extends React.Component{
   }
   checkEmpty(){
     const obj=this.state
-    console.log(obj.name)
     if(obj.rollNo && obj.name && obj.cpp && obj.java && obj.dbms){
       return false
     }
@@ -68,19 +67,28 @@ class FormComponent extends React.Component{
     if(obj.rvalid || obj.nvalid || obj.cppvalid || obj.javavalid || obj.dbmsvalid) return true
     else return false
   }
+  setStudent(event){
+    return{
+          rollno:event.target.rollNo.value,
+          name:event.target.name.value,
+          cpp:event.target.cpp.value,
+          java:event.target.cpp.value,
+          dbms:event.target.dbms.value
+    }
+  }
   handleSubmit(event){
    event.preventDefault()
    if(this.checkEmpty() || this.checkValid()){ event.preventDefault()}
    else{
       if(this.props.update){
-        this.props.dispatch(UpdateStudent(event))
+        this.props.dispatch(updateStudent(this.setStudent(event)))
         this.props.dispatch(SetUpdate())
       }else{
-          this.props.dispatch(AddStudent(event))
+        this.props.dispatch(addStudent(this.setStudent(event)))
       }
       this.props.dispatch(SetStudent())
       this.props.dispatch(SetModel())
-      }
+    }
   }
   render(){
     const title=this.props.update ? 'Update Detail' : 'Add New Student';
@@ -159,5 +167,6 @@ export default connect((state)=>{
     students:state.studentStore.students,
     update:state.studentStore.update,
     student:state.studentStore.getStudent,
+    loading:state.studentStore.loading
   }
 })(FormComponent)

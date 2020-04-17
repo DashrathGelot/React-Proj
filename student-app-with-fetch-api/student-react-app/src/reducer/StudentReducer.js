@@ -2,67 +2,21 @@ import ActionType from '../actions/ActionConstant';
 
 const defaultState={
     students:[],
-    getStudent:{},
+    getStudent:{rollno:'',name:'',cpp:'',java:'',dbms:''},
     modelShow:false,
     update:false,
-    tableShow:false
+    error:false,
+    loading:false,
+    message:''
 }
 
-const setStudent=(e)=>{
-    return{
-        name:e.target.name.value,
-        rollNo:parseInt(e.target.rollNo.value),
-        cpp:e.target.cpp.value,
-        java:e.target.java.value,
-        dbms:e.target.dbms.value,
-        result:parseInt(e.target.cpp.value)>=40 && parseInt(e.target.java.value)>=40 && parseInt(e.target.dbms.value)>=40 ? 'Pass' :'Fail'
-    }
-}
 export default function (state=defaultState,action){
-    let newSt=state.students;
-
+    let newSt=[...state.students];
     switch (action.type) {
-
-        case ActionType.ADD_STUDENT:
-            newSt.push(setStudent(action.student))
-            return{
-                ...state,
-                students:newSt
-            }
-
-        case ActionType.REMOVE_STUDENT:
-            return{
-                ...state,
-                students:state.students.filter((st) =>parseInt(action.index)!==st.rollNo)
-            } 
-            
-        case ActionType.UPDATE_STUDENT:
-            state.students.forEach((student,index)=>{
-                if(student.rollNo === parseInt(action.student.target.rollNo.value)){
-                    newSt[index]=setStudent(action.student)
-                }
-            })
-            return{
-                ...state,
-                students:newSt,
-            }  
-
-        case ActionType.GET_STUDENT:
-            let tempStudent={}
-            state.students.forEach(
-                student => {
-                  if(parseInt(action.rollNO) === student.rollNo){
-                    tempStudent=student;
-                  }
-                });
-            return{
-                ...state,
-                getStudent:tempStudent,
-            }
         case ActionType.SET_STUDENT:
             return{
                 ...state,
-                getStudent:{}
+                getStudent:{rollno:'',name:'',cpp:'',java:'',dbms:''}
             }
         case ActionType.SET_MODEL:
             return{
@@ -74,10 +28,64 @@ export default function (state=defaultState,action){
                 ...state,
                 update:!state.update
             }
+        case ActionType.GET_STUDENT:
+            let tempStudent={}
+            state.students.forEach(
+                student => {
+                  if(parseInt(action.id) === parseInt(student.rollno)){
+                    tempStudent=student;
+                  }
+                });
+            return{
+                ...state,
+                getStudent:tempStudent,
+            }
+        case ActionType.HANDLE_FETCH_REQUEST:
+            return{
+                ...state,
+                loading:true
+            }
         case ActionType.HANDLE_STUDENT_RESPONSE:
             return{
                 ...state,
-                stud:action.students
+                students:action.students,
+                loading:false,
+            }
+        case ActionType.HANDLE_SINGLE_STUDENT_RESPONSE:
+            return{
+                ...state,
+                getStudent:action.student,
+            }
+        case ActionType.HANDLE_CREATE_STUDENT_RESPONSE:
+            newSt.push(action.student)
+            return{
+                ...state,
+                students:newSt,
+                message:'student added successfully!!!'
+            }
+        case ActionType.HANDLE_UPDATE_STUDENT_RESPONSE:
+            state.students.forEach((student,index)=>{
+                if(student.rollno === parseInt(action.student.rollno)){
+                    newSt[index]=action.student
+                }
+            })
+            return{
+                ...state,
+                students:newSt,
+                message:'student updated successfully!!!'
+            }
+        case ActionType.HANDLE_DELETE_STUDENT_RESPONSE:
+            return{
+                ...state,
+                students:state.students.filter((st) =>parseInt(action.id)!==st.rollno),
+                message:'student deleted successfully!!!'
+            }
+        case ActionType.HANDLE_RESPONSE_FAILED:
+            return{
+                ...state,
+                error:true,
+                message:"oops! Something wrong with your request",
+                loading:false
             }
         default:
             return state;
