@@ -104,6 +104,8 @@ class Student extends React.Component {
     return (
       <div>
         <HeaderComponent setModalShow={this.setModalShow}/>
+        {this.props.error?this.props.message:
+        <div>
         {this.props.tableShow ?
         <TableComponent students={this.props.students} onDelete={this.handleDelete} onUpdate={this.handleUpdate}/> : null}
         {this.props.modelShow ?
@@ -113,6 +115,8 @@ class Student extends React.Component {
         />:null}
         {this.props.tableShow ?
         <SecondTableComponent students={this.props.students}/>:null}
+        </div>
+        }
       </div>
     );
   }

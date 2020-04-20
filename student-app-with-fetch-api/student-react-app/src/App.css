@@ -55,6 +55,20 @@
 .valid-marks-div{
   color: red;
 }
+.input-search{
+  width: 108%;
+  outline: none;
+  height: 39px;
+  border: 1px solid rgb(51, 177, 51);
+  border-radius: 5px;
+  align-self: center;
+}
+.dropdown-list-box{
+  margin-top: 2%;
+  margin-left: 2%;
+  border-radius: 10px;
+  background-color: #d9e7eb;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

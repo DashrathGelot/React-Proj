@@ -8,6 +8,7 @@ class StudentService{
                 }
                 resolve(response.json())
             })
+            .catch(error=>reject(error))
         });
     }
     fetchSingleStudent(id){
