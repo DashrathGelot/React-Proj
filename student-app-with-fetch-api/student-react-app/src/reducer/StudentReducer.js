@@ -12,6 +12,8 @@ const defaultState={
 
 export default function (state=defaultState,action){
     let newSt=[...state.students];
+    state.error=false
+    state.success=false
     switch (action.type) {
         case ActionType.SET_STUDENT:
             return{
@@ -61,7 +63,8 @@ export default function (state=defaultState,action){
             return{
                 ...state,
                 students:newSt,
-                message:'student added successfully!!!'
+                success:true,
+                message:action.message
             }
         case ActionType.HANDLE_UPDATE_STUDENT_RESPONSE:
             state.students.forEach((student,index)=>{
@@ -72,19 +75,21 @@ export default function (state=defaultState,action){
             return{
                 ...state,
                 students:newSt,
-                message:'student updated successfully!!!'
+                success:true,
+                message:action.message
             }
         case ActionType.HANDLE_DELETE_STUDENT_RESPONSE:
             return{
                 ...state,
                 students:state.students.filter((st) =>parseInt(action.id)!==st.rollno),
-                message:'student deleted successfully!!!'
+                success:true,
+                message:action.message
             }
         case ActionType.HANDLE_RESPONSE_FAILED:
             return{
                 ...state,
                 error:true,
-                message:"oops! Something wrong with your request",
+                message:action.message,
                 loading:false
             }
         default:

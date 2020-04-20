@@ -100,9 +100,12 @@ class Student extends React.Component {
     this.props.dispatch(SetModel())
     this.props.dispatch(SetUpdate())
   }
+  componentDidUpdate(){
+    if(this.props.success || this.props.error)alert(this.props.message)
+  }
   render(){ 
     return (
-      <div>
+      <div className="container">
         <HeaderComponent setModalShow={this.setModalShow}/>
         {this.props.error?this.props.message:
         <div>
@@ -129,5 +132,6 @@ export default connect((state,props)=>{
         tableShow:state.studentStore.students.length!==0,
         update:state.studentStore.update,
         message:state.studentStore.message,
-        error:state.studentStore.error
+        error:state.studentStore.error,
+        success:state.studentStore.success,
     }})(Student);

@@ -36,4 +36,4 @@ for run the server:
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## note: Replace proxy in package.json file with your tomcat server due to this project running on local-server
+## note: Replace cross-origins in studentapp/rest/StudentController.java file with your web server due to this project running on local-server

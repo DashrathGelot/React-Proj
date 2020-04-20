@@ -1,7 +1,7 @@
 class StudentService{
     fetchStudentData(){
         return new Promise((resolve,reject)=>{
-            fetch("/students")
+            fetch("http://localhost:8080/students")
             .then((response)=>{
                 if(!response.ok){
                     throw Error()
@@ -13,14 +13,14 @@ class StudentService{
     }
     fetchSingleStudent(id){
         return new Promise((resolve,reject)=>{
-            fetch("/student/"+id)
+            fetch("http://localhost:8080/student/"+id)
             .then(res=>resolve(res.json()))
             .catch(error=>reject(error))
         })
     }
     addStudent(student){
         return new Promise((resolve,response)=>{
-            fetch("/student",{
+            fetch("http://localhost:8080/student",{
                 method:"POST",
                 headers:{
                     'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ class StudentService{
     }
     deleteStudentById(id){
         return new Promise((resolve,reject)=>{
-            fetch("/student/"+id,{
+            fetch("http://localhost:8080/student/"+id,{
                 method:'DELETE',
             })
             .then(resp=>resolve(resp.json()))

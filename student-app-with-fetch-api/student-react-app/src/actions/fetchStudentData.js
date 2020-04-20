@@ -13,7 +13,8 @@ export function fetchStudentData(){
             })
         }).catch(error=>{
             dispatch({
-                type:ActionType.HANDLE_RESPONSE_FAILED
+                type:ActionType.HANDLE_RESPONSE_FAILED,
+                message:"oops! Something wrong with your request"
             })
         })
     }
@@ -36,11 +37,13 @@ export function addStudent(student){
         StudentService.addStudent(student).then(response=>{
             dispatch({
                 type:ActionType.HANDLE_CREATE_STUDENT_RESPONSE,
-                student:response
+                student:response,
+                message:'student added successfully!!!'
             })
         }).catch(error=>{
             dispatch({
-                type:ActionType.HANDLE_RESPONSE_FAILED
+                type:ActionType.HANDLE_RESPONSE_FAILED,
+                message:"oops! Something wrong with your request"
             })
         })
     }
@@ -50,12 +53,14 @@ export function deleteStudent(id){
         StudentService.deleteStudentById(id).then(response=>{
             dispatch({
                 type:ActionType.HANDLE_DELETE_STUDENT_RESPONSE,
-                id:id
+                id:id,
+                message:'student deleted successfully!!!'
             })
         }).catch(error=>{
             dispatch({
                 type:ActionType.HANDLE_RESPONSE_FAILED,
-                error:error
+                error:error,
+                message:"oops! Something wrong with your request"
             })
         })
     }
@@ -65,11 +70,13 @@ export function updateStudent(student){
         StudentService.updateStudent(student).then(response=>{
             dispatch({
                 type:ActionType.HANDLE_UPDATE_STUDENT_RESPONSE,
-                student:response
+                student:response,
+                message:'student updated successfully!!!'
             })
         }).catch(error=>{
             dispatch({
-                type:ActionType.HANDLE_RESPONSE_FAILED
+                type:ActionType.HANDLE_RESPONSE_FAILED,
+                message:"oops! Something wrong with your request"
             })
         })
     }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class StudentController {
     @Autowired
     private StudentService studentService;
@@ -29,7 +30,6 @@ public class StudentController {
     @RequestMapping(method = RequestMethod.DELETE,value ="/student/{id}")
     public Map<String,String> deleteStudent(@PathVariable int id){
         studentService.deleteStudent(id);
-        System.out.println("hello"+id);
         return new HashMap<String, String>(){{put("status","success");}};
     }
     @RequestMapping(method = RequestMethod.PUT,value = "/student")

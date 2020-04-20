@@ -23,6 +23,9 @@ class HeaderComponent extends React.Component{
                 <Container>
                     <Row>
                         <Col>
+                            Student Record : {this.props.students.length}
+                        </Col>
+                        <Col>
                             <input className="input-search" placeholder=" Search RollNumber...." value={this.state.search} onChange={this.handleSearch}/>
                             <ul className="list-unstyled dropdown-list-box">
                             {result}
